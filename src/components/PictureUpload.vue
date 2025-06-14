@@ -1,21 +1,16 @@
 <template>
-  <div id="picture-upload">
-    <PictureUpload :picture="picture" :onSuccess="onSuccess" />
+  <div class="picture-upload">
     <a-upload
-      v-model:file-list="fileList"
-      name="avatar"
       list-type="picture-card"
-      class="avatar-uploader"
       :show-upload-list="false"
-      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+      :custom-request="handleUpload"
       :before-upload="beforeUpload"
-      @change="handleChange"
     >
-      <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+      <img v-if="picture?.url" :src="picture?.url" alt="avatar" />
       <div v-else>
         <loading-outlined v-if="loading"></loading-outlined>
         <plus-outlined v-else></plus-outlined>
-        <div class="ant-upload-text">Upload</div>
+        <div class="ant-upload-text">点击或拖拽上传图片</div>
       </div>
     </a-upload>
   </div>
@@ -25,6 +20,7 @@ import { ref } from 'vue'
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import type { UploadChangeParam, UploadProps } from 'ant-design-vue'
+import {uploadPictureUsingPost} from "@/api/pictureController.ts";
 
 interface Props {
   picture?: API.PictureVO
@@ -32,58 +28,58 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-const picture = ref<API.PictureVO>()
-const onSuccess = (newPicture: API.PictureVO) => {
-  picture.value = newPicture
-}
-
-
-function getBase64(img: Blob, callback: (base64Url: string) => void) {
-  const reader = new FileReader()
-  reader.addEventListener('load', () => callback(reader.result as string))
-  reader.readAsDataURL(img)
-}
-
-const fileList = ref([])
 const loading = ref<boolean>(false)
-const imageUrl = ref<string>('')
-
-const handleChange = (info: UploadChangeParam) => {
-  if (info.file.status === 'uploading') {
-    loading.value = true
-    return
-  }
-  if (info.file.status === 'done') {
-    // Get this url from response in real world.
-    getBase64(info.file.originFileObj, (base64Url: string) => {
-      imageUrl.value = base64Url
-      loading.value = false
-    })
-  }
-  if (info.file.status === 'error') {
-    loading.value = false
-    message.error('upload error')
-  }
-}
+const fileList = ref([])
 
 const beforeUpload = (file: UploadProps['fileList'][number]) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   if (!isJpgOrPng) {
-    message.error('You can only upload JPG file!')
+    message.error('不支持上传该格式的图片，推荐 jpg 或 png')
   }
   const isLt2M = file.size / 1024 / 1024 < 2
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!')
+    message.error('不能上传超过 2M 的图片')
   }
   return isJpgOrPng && isLt2M
 }
+
+/**
+ * 上传图片
+ * @param file
+ */
+const handleUpload = async ({ file }: any) => {
+  loading.value = true
+  try {
+    const params = props.picture ? { id: props.picture.id } : {}
+    const res = await uploadPictureUsingPost(params, {}, file)
+    if (res.data.code === 0 && res.data.data) {
+      message.success('图片上传成功')
+      // 将上传成功的图片信息传递给父组件
+      props.onSuccess?.(res.data.data)
+    } else {
+      message.error('图片上传失败，' + res.data.message)
+    }
+  } catch (error) {
+    console.error('图片上传失败', error)
+    message.error('图片上传失败，'+ error.message)
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 <style scoped>
-.avatar-uploader > .ant-upload {
-  width: 128px;
-  height: 128px;
+.picture-upload :deep(.ant-upload) {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 152px;
+  min-width: 152px;
 }
+
+.picture-upload img {
+  max-width: 100%;
+  max-height: 480px;
+}
+
 .ant-upload-select-picture-card i {
   font-size: 32px;
   color: #999;

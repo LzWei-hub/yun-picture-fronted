@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, h, ref} from 'vue'
+import { computed, h, ref } from 'vue'
 import { HomeOutlined, LogoutOutlined } from '@ant-design/icons-vue'
 import type { MenuProps } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
@@ -67,6 +67,11 @@ const originItems = [
     key: '/add_picture',
     label: '创建图片',
     title: '创建图片',
+  },
+  {
+    key: '/admin/pictureManage',
+    label: '图片管理',
+    title: '图片管理',
   },
   {
     key: 'others',
@@ -120,7 +125,6 @@ const filterMenus = (menus = [] as MenuProps['items']) => {
     return true
   })
 }
-
 </script>
 
 <style scoped>
