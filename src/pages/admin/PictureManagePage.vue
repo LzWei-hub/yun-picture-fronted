@@ -2,7 +2,10 @@
   <div id="pictureManagePage">
     <a-flex justify="space-between" style="margin-bottom: 8px">
       <h2>图片管理</h2>
-      <a-button type="primary" href="/add_picture" target="_blank">+ 创建图片</a-button>
+      <a-space>
+        <a-button type="primary" href="/add_picture" target="_blank">+ 创建图片</a-button>
+        <a-button type="primary" href="/add_picture/batch" target="_blank" ghost>+ 批量创建图片</a-button>
+      </a-space>
     </a-flex>
 
     <a-form layout="inline" :model="searchParams" @finish="doSearch" style="margin-bottom: 16px">
