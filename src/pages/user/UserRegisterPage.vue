@@ -1,6 +1,6 @@
 <template>
   <div id="userRegisterPage">
-    <h2 class="title">鱼皮云图库 - 用户注册</h2>
+    <h2 class="title">智能云图库 - 用户注册</h2>
     <div class="desc">企业级智能协同云图库</div>
     <a-form
       :model="formState"
@@ -44,8 +44,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useLoginUserStore } from '@/stores/useLoginUserStore'
-import { userLoginUsingPost, userRegisterUsingPost } from '@/api/userController'
+import { userRegisterUsingPost } from '@/api/userController'
 import { message } from 'ant-design-vue'
 
 const formState = reactive<API.UserRegisterRequest>({
