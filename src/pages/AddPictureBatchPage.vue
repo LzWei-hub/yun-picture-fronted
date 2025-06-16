@@ -45,13 +45,14 @@ const handleSubmit = async (values: any) => {
   })
   if (res.data.code === 0 && res.data.data) {
     message.success(`创建成功，共 ${res.data.data} 条`)
+    loading.value = false;
     router.push({
-      path: '/',
+      path: '/add_picture/batch',
     })
   } else {
     message.error('创建失败，' + res.data.message)
   }
-  loading.value = false;
+
 }
 
 </script>
