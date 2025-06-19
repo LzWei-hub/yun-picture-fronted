@@ -30,13 +30,17 @@
                 </a-flex>
               </template>
             </a-card-meta>
-            <template #actions>
-              <a-space @click="e => doEdit(picture, e)">
-                <edit-outlined />
+            <template v-if="showOp" #actions>
+              <a-space @click="(e) => doSearch(picture, e)">
+                <SearchOutlined />
+                搜索
+              </a-space>
+              <a-space @click="(e) => doEdit(picture, e)">
+                <EditOutlined />
                 编辑
               </a-space>
-              <a-space @click="e => doDelete(picture, e)">
-                <delete-outlined />
+              <a-space @click="(e) => doDelete(picture, e)">
+                <DeleteOutlined />
                 删除
               </a-space>
             </template>
@@ -48,10 +52,12 @@
 </template>
 
 <script setup lang="ts">
+import { SearchOutlined, EditOutlined, DeleteOutlined, ShareAltOutlined } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
 import {message} from "ant-design-vue";
 import {deletePictureUsingPost} from "@/api/pictureController.ts";
 import {ref} from "vue";
+import ShareModal from '@/components/ShareModal.vue'
 
 interface Props {
   dataList?: API.PictureVO[]
@@ -105,6 +111,11 @@ const doDelete = async (picture, e) => {
   }
 }
 
+// 搜索
+const doSearch = (picture, e) => {
+  e.stopPropagation()
+  window.open(`/search_picture?pictureId=${picture.id}`)
+}
 </script>
 
 <style scoped></style>
