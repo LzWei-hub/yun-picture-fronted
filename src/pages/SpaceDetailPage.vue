@@ -7,6 +7,15 @@
         <a-button type="primary" :href="`/add_picture?spaceId=${id}`" target="_blank">
           + 创建图片
         </a-button>
+        <a-button
+          type="primary"
+          ghost
+          :icon="h(BarChartOutlined)"
+          :href="`/space_analyze?spaceId=${id}`"
+          target="_blank"
+        >
+          空间分析
+        </a-button>
         <a-button :icon="h(EditOutlined)" @click="doBatchEdit"> 批量编辑</a-button>
         <a-tooltip
           :title="`占用空间 ${formatSize(space.totalSize)} / ${formatSize(space.maxSize)}`"
@@ -20,7 +29,7 @@
       </a-space>
     </a-flex>
     <!-- 搜索表单 -->
-    <PictureSearchForm :onSearch="onSearch" style="margin-bottom: 16px"/>
+    <PictureSearchForm :onSearch="onSearch" style="margin-bottom: 16px" />
     <!-- 按颜色搜索 -->
     <a-form-item label="按颜色搜索" style="margin-top: 16px">
       <color-picker format="hex" @pureColorChange="onColorChange" />
@@ -48,11 +57,14 @@ import { h, onMounted, ref } from 'vue'
 import { getSpaceVoByIdUsingGet } from '@/api/spaceController.ts'
 import { message } from 'ant-design-vue'
 import { formatSize } from '@/utils'
-import { listPictureVoByPageUsingPost, searchPictureByColorUsingPost } from '@/api/pictureController.ts'
+import {
+  listPictureVoByPageUsingPost,
+  searchPictureByColorUsingPost,
+} from '@/api/pictureController.ts'
 import PictureList from '@/components/PictureList.vue'
 import PictureSearchForm from '@/components/PictureSearchForm.vue'
 import { ColorPicker } from 'vue3-colorpicker'
-import { EditOutlined } from '@ant-design/icons-vue'
+import { EditOutlined, BarChartOutlined } from '@ant-design/icons-vue'
 import BatchEditPictureModal from '@/components/BatchEditPictureModal.vue'
 
 const props = defineProps<{
@@ -140,9 +152,9 @@ const onColorChange = async (color: string) => {
     spaceId: props.id,
   })
   if (res.data.code === 0 && res.data.data) {
-    const data = res.data.data ?? [];
-    dataList.value = data;
-    total.value = data.length;
+    const data = res.data.data ?? []
+    dataList.value = data
+    total.value = data.length
   } else {
     message.error('获取数据失败，' + res.data.message)
   }
@@ -162,7 +174,6 @@ const doBatchEdit = () => {
     batchEditPictureModalRef.value.openModal()
   }
 }
-
 </script>
 
 <style scoped>
