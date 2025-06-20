@@ -52,12 +52,11 @@
 </template>
 
 <script setup lang="ts">
-import { SearchOutlined, EditOutlined, DeleteOutlined, ShareAltOutlined } from '@ant-design/icons-vue'
+import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
 import {message} from "ant-design-vue";
 import {deletePictureUsingPost} from "@/api/pictureController.ts";
 import {ref} from "vue";
-import ShareModal from '@/components/ShareModal.vue'
 
 interface Props {
   dataList?: API.PictureVO[]
