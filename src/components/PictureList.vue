@@ -35,11 +35,11 @@
                 <SearchOutlined />
                 搜索
               </a-space>
-              <a-space @click="(e) => doEdit(picture, e)">
+              <a-space v-if="canEdit" @click="(e) => doEdit(picture, e)">
                 <EditOutlined />
                 编辑
               </a-space>
-              <a-space @click="(e) => doDelete(picture, e)">
+              <a-space v-if="canDelete" @click="(e) => doDelete(picture, e)">
                 <DeleteOutlined />
                 删除
               </a-space>
@@ -63,6 +63,8 @@ interface Props {
   loading?: boolean
   showOp?: boolean
   onReload?: () => void
+  canEdit?: boolean
+  canDelete?: boolean
 }
 
 const picture = ref<API.PictureVO>()
@@ -71,6 +73,8 @@ const props = withDefaults(defineProps<Props>(), {
   dataList: () => [],
   loading: false,
   showOp: false,
+  canEdit: false,
+  canDelete: false,
 })
 
 // 跳转至图片详情

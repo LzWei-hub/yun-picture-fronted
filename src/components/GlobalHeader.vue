@@ -84,11 +84,6 @@ const originItems = [
     label: '空间管理',
     title: '空间管理',
   },
-  {
-    key: 'others',
-    label: h('a', { href: 'https://www.baidu.com', target: '_blank' }, '其他链接'),
-    title: '其他链接',
-  },
 ]
 // 展示在菜单的路由数组
 const items = computed<MenuProps['items']>(() => filterMenus(originItems))

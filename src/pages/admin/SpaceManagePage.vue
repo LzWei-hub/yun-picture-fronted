@@ -1,6 +1,6 @@
 <template>
   <div id="SpaceManagePage">
-    <a-flex justify="space-between">
+    <a-flex justify="space-between" style="margin-bottom: 16px">
       <h2>空间管理</h2>
       <a-space>
         <a-button type="primary" href="/add_space" target="_blank">+ 创建空间</a-button>
@@ -13,7 +13,7 @@
       </a-space>
     </a-flex>
 
-    <a-form layout="inline" :model="searchParams" @finish="doSearch">
+    <a-form layout="inline" :model="searchParams" @finish="doSearch" style="margin-bottom: 8px">
       <a-form-item label="空间名称" name="spaceName">
         <a-input v-model:value="searchParams.spaceName" placeholder="请输入空间名称" allow-clear />
       </a-form-item>
@@ -22,6 +22,15 @@
           v-model:value="searchParams.spaceLevel"
           :options="SPACE_LEVEL_OPTIONS"
           placeholder="请输入空间级别"
+          style="min-width: 180px"
+          allow-clear
+        />
+      </a-form-item>
+      <a-form-item label="空间类别" name="spaceType">
+        <a-select
+          v-model:value="searchParams.spaceType"
+          :options="SPACE_TYPE_OPTIONS"
+          placeholder="请输入空间类别"
           style="min-width: 180px"
           allow-clear
         />
@@ -44,6 +53,10 @@
         <!-- 空间级别 -->
         <template v-if="column.dataIndex === 'spaceLevel'">
           <a-tag>{{ SPACE_LEVEL_MAP[record.spaceLevel] }}</a-tag>
+        </template>
+        <!-- 空间类别 -->
+        <template v-if="column.dataIndex === 'spaceType'">
+          <a-tag>{{ SPACE_TYPE_MAP[record.spaceType] }}</a-tag>
         </template>
         <!-- 使用情况 -->
         <template v-if="column.dataIndex === 'spaceUseInfo'">
@@ -77,8 +90,8 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import {deleteSpaceUsingPost, listSpaceByPageUsingPost} from '@/api/spaceController.ts'
-import {SPACE_LEVEL_MAP, SPACE_LEVEL_OPTIONS} from "../../constants/sapce.ts";
-import {formatSize} from "../../utils";
+import { SPACE_LEVEL_MAP, SPACE_LEVEL_OPTIONS, SPACE_TYPE_MAP, SPACE_TYPE_OPTIONS } from '@/constants/sapce.ts'
+import {formatSize} from '@/utils';
 const columns = [
   {
     title: 'id',
@@ -92,6 +105,10 @@ const columns = [
   {
     title: '空间级别',
     dataIndex: 'spaceLevel',
+  },
+  {
+    title: '空间类别',
+    dataIndex: 'spaceType',
   },
   {
     title: '使用情况',
