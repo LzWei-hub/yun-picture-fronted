@@ -47,7 +47,7 @@ import {
   listSpaceLevelUsingGet,
   updateSpaceUsingPost
 } from "@/api/spaceController.ts";
-import {formatSize} from "../utils";
+import {formatSize} from '@/utils';
 
 const router = useRouter()
 

@@ -81,8 +81,8 @@ import { getSpaceVoByIdUsingGet } from '@/api/spaceController.ts'
 import { message } from 'ant-design-vue'
 import { formatSize } from '@/utils'
 import {
-  listPictureVoByPageUsingPost,
-  searchPictureByColorUsingPost,
+  listPictureVoByPageUsingPost, listPictureVoByPageWithCacheUsingPost,
+  searchPictureByColorUsingPost
 } from '@/api/pictureController.ts'
 import PictureList from '@/components/PictureList.vue'
 import PictureSearchForm from '@/components/PictureSearchForm.vue'
@@ -155,7 +155,7 @@ const fetchData = async () => {
     spaceId: props.id,
     ...searchParams.value,
   }
-  const res = await listPictureVoByPageUsingPost(params)
+  const res = await listPictureVoByPageWithCacheUsingPost(params)
   if (res.data.data) {
     dataList.value = res.data.data.records ?? []
     total.value = res.data.data.total ?? 0
