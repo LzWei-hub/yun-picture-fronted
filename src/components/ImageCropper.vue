@@ -46,8 +46,8 @@ import { message } from 'ant-design-vue'
 import { uploadPictureUsingPost } from '@/api/pictureController.ts'
 import { useLoginUserStore } from '@/stores/useLoginUserStore.ts'
 import { PICTURE_EDIT_ACTION_ENUM, PICTURE_EDIT_MESSAGE_TYPE_ENUM } from '@/constants/picture.ts'
-import PictureEditWebSocket from '@/utils'
 import { SPACE_TYPE_ENUM } from '@/constants/sapce.ts'
+import PictureEditWebSocket from '@/utils'
 
 interface Props {
   imageUrl?: string

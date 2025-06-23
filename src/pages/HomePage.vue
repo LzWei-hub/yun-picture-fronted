@@ -17,7 +17,12 @@
     <div class="tag-bar" style="margin-bottom: 16px">
       <span style="margin-right: 8px">标签：</span>
       <a-space :size="[0, 8]" wrap>
-        <a-checkable-tag v-for="(tag, index) in tagList" :key="tag" v-model:checked="selectedTagList[index]" @change="doSearch">
+        <a-checkable-tag
+          v-for="(tag, index) in tagList"
+          :key="tag"
+          v-model:checked="selectedTagList[index]"
+          @change="doSearch"
+        >
           {{ tag }}
         </a-checkable-tag>
       </a-space>
@@ -31,18 +36,17 @@
       :total="total"
       @change="onPageChange"
     />
-
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import {
-  listPictureByPageUsingPost, listPictureTagCategoryUsingGet,
-  listPictureVoByPageUsingPost, listPictureVoByPageWithCacheUsingPost
+  listPictureTagCategoryUsingGet,
+  listPictureVoByPageWithCacheUsingPost,
 } from '@/api/pictureController.ts'
 import { message } from 'ant-design-vue'
-import {useRouter} from "vue-router";
-import PictureList from "@/components/PictureList.vue";
+import { useRouter } from 'vue-router'
+import PictureList from '@/components/PictureList.vue'
 
 // 数据
 const dataList = ref([])
@@ -129,7 +133,6 @@ const doClickPicture = (picture) => {
     path: `/picture/${picture.id}`,
   })
 }
-
 </script>
 
 <style scoped>

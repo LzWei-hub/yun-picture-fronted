@@ -34,7 +34,6 @@ export function toHexColor(input: any) {
   return `#${hexColor}`
 }
 
-
 export default class PictureEditWebSocket {
   private pictureId: number
   private socket: WebSocket | null
